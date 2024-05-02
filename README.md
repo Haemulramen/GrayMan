@@ -1,4 +1,4 @@
-# GrayMan
+# Newstrality
 
 
 ## demo link
