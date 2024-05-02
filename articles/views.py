@@ -54,3 +54,17 @@ def popular_article(request):
             'message' : '조선일보 최근 가장 많이 본 기사 10',
             'data' : articles
         })
+    
+@require_http_methods(["DELETE"])
+def delete_article(request):
+
+    if request.method == "DELETE":
+
+        all_article = Article.objects.all()
+        for article in all_article:
+            article.delete()
+
+        return JsonResponse({
+            'status' : 200,
+            'data' : '모든 기사 데이터 삭제 완료'
+        })
