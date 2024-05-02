@@ -81,6 +81,7 @@ def summarize(request, id):
         summary = cn.summarize(article.text)
 
         sum = Summary.objects.create(
+                origin = article,
                 text = summary,
                 correction = "test",
                 reason = "test",
