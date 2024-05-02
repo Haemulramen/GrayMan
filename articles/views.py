@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_http_methods
 from articles.models import *
+from articles.utils import *
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -41,8 +42,10 @@ def popular_article(request):
             driver.switch_to.window(driver.window_handles[0])
 
             temp = Article.objects.create(
+                title = "sorry",
                 text = article_text,
-                company = "조선일보"
+                company = "조선일보",
+                link = href
             )
 
             articles.append(temp.text)
@@ -53,4 +56,44 @@ def popular_article(request):
             'status' : 200,
             'message' : '조선일보 최근 가장 많이 본 기사 10',
             'data' : articles
+        })
+    
+@require_http_methods(["DELETE"])
+def delete_article(request):
+
+    if request.method == "DELETE":
+
+        all_article = Article.objects.all()
+        for article in all_article:
+            article.delete()
+
+        return JsonResponse({
+            'status' : 200,
+            'data' : '모든 기사 데이터 삭제 완료'
+        })
+    
+@require_http_methods(["GET"])
+def summarize(request, id):
+    
+    if request.method == "GET":
+        article = get_object_or_404(Article, id=id)
+        cn = CreateNews()
+        summary = cn.summarize(article.text)
+
+        sum = Summary.objects.create(
+                origin = article,
+                text = summary,
+                correction = "test",
+                reason = "test",
+            )
+        
+        sum_json = {
+            'text' : sum.text,
+            'correction' : sum.correction,
+            'reason' : sum.reason
+        }
+        
+        return JsonResponse({
+            'status' : 200,
+            'data' : sum_json
         })
