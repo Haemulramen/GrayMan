@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_http_methods
 from articles.models import *
+from articles.utils import *
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -67,4 +68,29 @@ def delete_article(request):
         return JsonResponse({
             'status' : 200,
             'data' : '모든 기사 데이터 삭제 완료'
+        })
+    
+@require_http_methods(["GET"])
+def summarize(request, id):
+    
+    if request.method == "GET":
+        article = get_object_or_404(Article, id=id)
+        cn = CreateNews()
+        summary = cn.summarize(article.text)
+
+        sum = Summary.objects.create(
+                text = summary,
+                correction = "test",
+                reason = "test",
+            )
+        
+        sum_json = {
+            'text' : sum.text,
+            'correction' : sum.correction,
+            'reason' : sum.reason
+        }
+        
+        return JsonResponse({
+            'status' : 200,
+            'data' : sum_json
         })
