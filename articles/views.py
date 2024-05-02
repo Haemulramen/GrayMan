@@ -41,8 +41,10 @@ def popular_article(request):
             driver.switch_to.window(driver.window_handles[0])
 
             temp = Article.objects.create(
+                title = "sorry",
                 text = article_text,
-                company = "조선일보"
+                company = "조선일보",
+                link = href
             )
 
             articles.append(temp.text)
