@@ -8,15 +8,7 @@ from articles.utils import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-# Create your views here.
 
-def hello_world(request):
-    if request.method == "GET":
-        return JsonResponse({
-            'status' : 200,
-            'data' : 'Hello world!'
-        })
-    
 @require_http_methods(["GET"])
 def popular_article(request):
     
@@ -28,12 +20,15 @@ def popular_article(request):
         politic_elements = driver.find_elements(By.CLASS_NAME, 'story-card__headline')[5:15]
         hrefs = [elem.get_attribute('href') for elem in politic_elements]
 
-        articles = []
+        chosun_articles = []
+
         for href in hrefs:
             driver.execute_script("window.open('');")
             driver.switch_to.window(driver.window_handles[1])
 
             driver.get(href)
+            title = driver.find_element(By.CSS_SELECTOR, '.article-header__headline')
+            title = title.text
             article_contents = driver.find_elements(By.CSS_SELECTOR, '.article-body__content')
 
             article_text = "\n".join([content.text for content in article_contents])
@@ -42,20 +37,89 @@ def popular_article(request):
             driver.switch_to.window(driver.window_handles[0])
 
             temp = Article.objects.create(
-                title = "sorry",
+                title = title,
                 text = article_text,
                 company = "조선일보",
                 link = href
             )
 
-            articles.append(temp.text)
+            chosun_articles.append(temp.text)
 
+        driver.get("https://www.hani.co.kr/")
+
+        han_articles = []
+
+        driver.find_element(By.CSS_SELECTOR, 'label[for="most-read-category-full-1"]').click()
+        politic_elements = driver.find_elements(By.CLASS_NAME, 'ArticleBottomMostReadList_subListItem__SwW3j')[:5]
+        hrefs = [elem.get_attribute('href') for elem in politic_elements]
+
+        for href in hrefs:
+            driver.execute_script("window.open('');")
+            driver.switch_to.window(driver.window_handles[1])
+
+            driver.get(href)
+            title = driver.find_element(By.CSS_SELECTOR, '.ArticleDetailView_title__9kRU_')
+            title = title.text
+            article_content = driver.find_elements(By.CSS_SELECTOR, '.article-text')
+            article_content = article_content[0].text
+
+            driver.close()
+            driver.switch_to.window(driver.window_handles[0])
+
+            temp = Article.objects.create(
+                title = title,
+                text = article_content,
+                company = "한겨레 신문",
+                link = href
+            )
+
+            han_articles.append(temp.text)
+
+        driver.find_element(By.CSS_SELECTOR, 'label[for="most-read-category-full-2"]').click()
+        social_elements = driver.find_elements(By.CLASS_NAME, 'ArticleBottomMostReadList_subListItem__SwW3j')[:5]
+        hrefs = [elem.get_attribute('href') for elem in social_elements]
+
+        for href in hrefs:
+            driver.execute_script("window.open('');")
+            driver.switch_to.window(driver.window_handles[1])
+
+            driver.get(href)
+            title = driver.find_element(By.CSS_SELECTOR, '.ArticleDetailView_title__9kRU_')
+            title = title.text
+            article_content = driver.find_elements(By.CSS_SELECTOR, '.article-text')
+            article_content = article_content[0].text
+
+            driver.close()
+            driver.switch_to.window(driver.window_handles[0])
+
+            temp = Article.objects.create(
+                title = title,
+                text = article_content,
+                company = "한겨레 신문",
+                link = href
+            )
+
+            han_articles.append(temp.text)
+        
         driver.quit()
+
+        cn = CreateNews()
+
+        all_articles = Article.objects.all()
+        for article in all_articles:
+            
+            summary = cn.summarize(article.text)
+
+            Summary.objects.create(
+                    origin = article,
+                    text = summary,
+                    correction = "test",
+                    reason = "test",
+                )
 
         return JsonResponse({
             'status' : 200,
-            'message' : '조선일보 최근 가장 많이 본 기사 10',
-            'data' : articles
+            'message' : '조선일보, 한겨레신문 각 10개씩 기사 크롤링 및 요약본 DB 저장 완료'
         })
     
 @require_http_methods(["DELETE"])
