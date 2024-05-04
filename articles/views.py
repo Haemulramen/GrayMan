@@ -118,19 +118,19 @@ def popular_article(request):
         
         driver.quit()
 
-        cn = CreateNews()
+        # cn = CreateNews()
 
-        all_articles = Article.objects.all()
-        for article in all_articles:
+        # all_articles = Article.objects.all()
+        # for article in all_articles:
             
-            summary = cn.summarize(article.text)
+        #     summary = cn.summarize(article.text)
 
-            Summary.objects.create(
-                    origin = article,
-                    text = summary,
-                    correction = "test",
-                    reason = "test",
-                )
+        #     Summary.objects.create(
+        #             origin = article,
+        #             text = summary,
+        #             correction = "test",
+        #             reason = "test",
+        #         )
 
         return JsonResponse({
             'status' : 200,
