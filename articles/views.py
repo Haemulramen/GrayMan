@@ -50,16 +50,22 @@ def popular_article(request):
         han_articles = []
 
         driver.find_element(By.CSS_SELECTOR, 'label[for="most-read-category-full-1"]').click()
-        politic_elements = driver.find_elements(By.CLASS_NAME, 'ArticleBottomMostReadList_subListItem__SwW3j')[:5]
+        politic_elements = driver.find_elements(By.CLASS_NAME, 'ArticleBottomMostReadList_subListItem__SwW3j')[:10]
         hrefs = [elem.get_attribute('href') for elem in politic_elements]
 
+        
         for href in hrefs:
             driver.execute_script("window.open('');")
             driver.switch_to.window(driver.window_handles[1])
 
             driver.get(href)
-            title = driver.find_element(By.CSS_SELECTOR, '.ArticleDetailView_title__9kRU_')
-            title = title.text
+            try:
+                title = driver.find_element(By.CSS_SELECTOR, '.ArticleDetailView_title__9kRU_')
+                title = title.text
+            except:
+                driver.close()
+                driver.switch_to.window(driver.window_handles[0])
+                continue
             article_content = driver.find_elements(By.CSS_SELECTOR, '.article-text')
             article_content = article_content[0].text
 
@@ -74,9 +80,11 @@ def popular_article(request):
             )
 
             han_articles.append(temp.text)
+            if han_articles.count == 5:
+                break
 
         driver.find_element(By.CSS_SELECTOR, 'label[for="most-read-category-full-2"]').click()
-        social_elements = driver.find_elements(By.CLASS_NAME, 'ArticleBottomMostReadList_subListItem__SwW3j')[:5]
+        social_elements = driver.find_elements(By.CLASS_NAME, 'ArticleBottomMostReadList_subListItem__SwW3j')[:10]
         hrefs = [elem.get_attribute('href') for elem in social_elements]
 
         for href in hrefs:
@@ -84,8 +92,13 @@ def popular_article(request):
             driver.switch_to.window(driver.window_handles[1])
 
             driver.get(href)
-            title = driver.find_element(By.CSS_SELECTOR, '.ArticleDetailView_title__9kRU_')
-            title = title.text
+            try:
+                title = driver.find_element(By.CSS_SELECTOR, '.ArticleDetailView_title__9kRU_')
+                title = title.text
+            except:
+                driver.close()
+                driver.switch_to.window(driver.window_handles[0])
+                continue
             article_content = driver.find_elements(By.CSS_SELECTOR, '.article-text')
             article_content = article_content[0].text
 
@@ -100,6 +113,8 @@ def popular_article(request):
             )
 
             han_articles.append(temp.text)
+            if han_articles.count == 5:
+                break
         
         driver.quit()
 
