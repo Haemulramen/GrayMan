@@ -47,7 +47,7 @@ def popular_article(request):
 
         driver.get("https://www.hani.co.kr/")
 
-        han_articles = []
+        article_count = 0
 
         driver.find_element(By.CSS_SELECTOR, 'label[for="most-read-category-full-1"]').click()
         politic_elements = driver.find_elements(By.CLASS_NAME, 'ArticleBottomMostReadList_subListItem__SwW3j')[:10]
@@ -79,9 +79,11 @@ def popular_article(request):
                 link = href
             )
 
-            han_articles.append(temp.text)
-            if han_articles.count == 5:
+            article_count = article_count + 1
+            if article_count == 5:
                 break
+
+        article_count = 0
 
         driver.find_element(By.CSS_SELECTOR, 'label[for="most-read-category-full-2"]').click()
         social_elements = driver.find_elements(By.CLASS_NAME, 'ArticleBottomMostReadList_subListItem__SwW3j')[:10]
@@ -112,8 +114,8 @@ def popular_article(request):
                 link = href
             )
 
-            han_articles.append(temp.text)
-            if han_articles.count == 5:
+            article_count = article_count + 1
+            if article_count == 5:
                 break
         
         driver.quit()
