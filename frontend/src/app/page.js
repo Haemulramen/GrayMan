@@ -11,7 +11,7 @@ export default function Home() {
           if (index >= 10) return;
           return (
             <a href={news_link}>
-              <section className="flex items-center justify-between m-2 border p-3">
+              <section className="flex items-center justify-between m-2 border p-3 hover:bg-slate-100 hover:text-black rounded">
                 <h1 className=" text-lg">{item.title}</h1>
                 <p>{item.company}</p>
               </section>
@@ -19,6 +19,12 @@ export default function Home() {
           );
         })
       )}
+      <section>
+        <button className="border px-4 py-2 hover:bg-slate-100 hover:text-black rounded" onClick={openModal}>
+          Feedback
+        </button>
+
+      </section>
     </main>
   );
 }

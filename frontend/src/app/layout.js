@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <header className="fixed w-full flex items-center justify-between p-4 border-b-2">
-          <div id="logo">Newstarlity</div>
+          <div id="logo"><a href="/">Newstarlity</a></div>
           <nav>
             <ul className="flex flex-row">
               <li className="mr-4">
