@@ -10,8 +10,8 @@ export default function Home() {
           const news_link = "/detail/" + item.id;
           if (index >= 10) return;
           return (
-            <a href={news_link}>
-              <section key={index} className="flex items-center justify-between m-2 border p-3 hover:bg-slate-100 hover:text-black rounded">
+            <a href={news_link} key={index}>
+              <section className="flex items-center justify-between m-2 border p-3 hover:bg-slate-100 hover:text-black rounded">
                 <h1 className=" text-lg">{item.title}</h1>
                 <p>{item.company}</p>
               </section>
@@ -20,10 +20,9 @@ export default function Home() {
         })
       )}
       <section>
-        <button className="border px-4 py-2 hover:bg-slate-100 hover:text-black rounded" >
+        <button className="border px-4 py-2 hover:bg-slate-100 hover:text-black rounded">
           Feedback
         </button>
-
       </section>
     </main>
   );
