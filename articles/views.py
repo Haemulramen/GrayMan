@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -8,6 +9,8 @@ from articles.utils import *
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from .embedding import get_result
+
 
 @require_http_methods(["GET"])
 def popular_article(request):
@@ -120,20 +123,6 @@ def popular_article(request):
         
         driver.quit()
 
-        # cn = CreateNews()
-
-        # all_articles = Article.objects.all()
-        # for article in all_articles:
-            
-        #     summary = cn.summarize(article.text)
-
-        #     Summary.objects.create(
-        #             origin = article,
-        #             text = summary,
-        #             correction = "test",
-        #             reason = "test",
-        #         )
-
         return JsonResponse({
             'status' : 200,
             'message' : '조선일보, 한겨레신문 각 10개씩 기사 크롤링 및 요약본 DB 저장 완료'
@@ -178,3 +167,18 @@ def summarize(request, id):
             'status' : 200,
             'data' : sum_json
         })
+        
+   
+@require_http_methods(["OPTIONS", "POST"])
+def chatting(request):
+    try:
+        data = json.loads(request.body)
+        print(data)
+        user_question = data.get('question')
+        if user_question:
+            answer = get_result(user_question)
+            return JsonResponse({'answer': answer})
+        else:
+            return JsonResponse({'error': 'No question provided'}, status=400)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)

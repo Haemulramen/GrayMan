@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+.chatting{
+  /* i want to set font color */
+  color: rgb(225, 94, 80);
+}
