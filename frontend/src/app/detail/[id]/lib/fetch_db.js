@@ -16,8 +16,32 @@ export async function fetchData(id) {
   return data;
 }
 
+
+
+export async function fetchArticleData(id) {
+  const db = new sqlite3.Database("../db.sqlite3");
+  const query = `SELECT * FROM articles_article WHERE id = ${id}`;
+  const dataPromise = await new Promise((resolve, reject) => {
+    db.all(query, (err, rows) => {
+      if (err) reject(err);
+      resolve(rows);
+    });
+  });
+  db.close();
+  const data = await dataPromise;
+
+  return data;
+}
 export async function getServerSideProps(id) {
   const data = await fetchData(id);
+  return {
+    props: {
+      data,
+    },
+  };
+}
+export async function getServerSidePropsArticle(id) {
+  const data = await fetchArticleData(id);
   return {
     props: {
       data,
