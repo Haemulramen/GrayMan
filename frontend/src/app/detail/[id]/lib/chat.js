@@ -34,7 +34,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '2px' }}>
       <h1>뉴스에 대해 궁금한 것을 물어보세요!</h1>
       <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
         <input
