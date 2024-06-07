@@ -7,7 +7,6 @@
 *.pyc
 __pycache__/
 local_settings.py
-db.sqlite3
 db.sqlite3-journal
 media
 
@@ -31,7 +30,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -175,3 +173,4 @@ cython_debug/
 
 secrets.json
 articles/migrations
+Important.pem
