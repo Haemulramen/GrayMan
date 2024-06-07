@@ -26,6 +26,10 @@ def popular_article(request):
         chosun_articles = []
 
         for href in hrefs:
+            # 이미 존재하는 기사인 경우
+            if Article.objects.filter(link=href).exists():
+                continue
+
             driver.execute_script("window.open('');")
             driver.switch_to.window(driver.window_handles[1])
 
@@ -58,6 +62,10 @@ def popular_article(request):
 
         
         for href in hrefs:
+            # 이미 존재하는 기사인 경우
+            if Article.objects.filter(link=href).exists():
+                continue
+
             driver.execute_script("window.open('');")
             driver.switch_to.window(driver.window_handles[1])
 
@@ -93,6 +101,10 @@ def popular_article(request):
         hrefs = [elem.get_attribute('href') for elem in social_elements]
 
         for href in hrefs:
+            # 이미 존재하는 기사인 경우
+            if Article.objects.filter(link=href).exists():
+                continue
+            
             driver.execute_script("window.open('');")
             driver.switch_to.window(driver.window_handles[1])
 
