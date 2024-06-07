@@ -21,4 +21,5 @@ from articles.views import *
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('news/', include('articles.urls')),
+    path('comments/', include('comments.urls')),
 ]

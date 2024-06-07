@@ -10,7 +10,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from .embedding import get_result
-
+from comments.models import Comment
+from comments.serializers import CommentSerializer
 
 @require_http_methods(["GET"])
 def popular_article(request):
@@ -194,3 +195,11 @@ def chatting(request):
             return JsonResponse({'error': 'No question provided'}, status=400)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+@require_http_methods(["GET"])
+def article_comment_list(request, id):
+    
+    if request.method == "GET":
+        commentList = Comment.objects.filter(article_id=id)
+        serializer = CommentSerializer(commentList, many=True)
+        return JsonResponse(serializer.data, safe=False)

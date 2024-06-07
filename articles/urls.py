@@ -6,4 +6,5 @@ urlpatterns = [
     path('delete/', delete_article, name='delete_article'),
     path('sum/<int:id>/', summarize, name='summarize'),
     path('chatting/', chatting, name = 'chatting'),
+    path('<int:id>/', article_comment_list, name='article_comment_list')
 ]
