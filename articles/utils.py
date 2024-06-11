@@ -60,18 +60,3 @@ class CreateNews():
         ]
     )
         return response.choices[0].message.content
-    
-    def reason(self):
-        pass
-    
-    # def insert_summarize(self, text):
-    #     Summary.objects.create(
-    #             text = text,
-    #             correction = "test",
-    #             reason = "test",
-    #         ) 
-        
-
-
-
-# 뉴스 요약, 수정한 부분, 그리고 그 이유에 대해 하나의 프롬프트로 다 작성을 요청하면 수정하지도 않은 부분에 대해 이유를 말한다. 요약문을 만들고 이를 원본과 비교하여 차이점을 알려달라하는 것이 나을듯?
