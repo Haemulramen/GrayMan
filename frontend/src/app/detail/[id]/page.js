@@ -1,5 +1,4 @@
-import LeftSide from "./layout/leftside";
-import RightSide from "./layout/rightside";
+import React from 'react';
 import { getServerSideProps, getServerSidePropsArticle } from "./lib/fetch_db";
 import Correction from "./layout/correction";
 import App from "./lib/chat";
@@ -16,11 +15,11 @@ export default function Detail(props) {
         {data.then((response) =>
           response.props.data.map((item, index) => {
             const news_link = "/detail/" + item.id;
-            if (index >= 10) return;
+            if (index >= 10) return null;
             return (
               <a href={news_link} key={index}>
                 <section className="flex items-center justify-between m-2 border p-3 hover:bg-slate-100 hover:text-black rounded">
-                  <h1 className=" text-lg">{item.title}</h1>
+                  <h1 className="text-lg">{item.title}</h1>
                   <p>{item.company}</p>
                 </section>
               </a>
@@ -40,14 +39,10 @@ export default function Detail(props) {
               const correction = item.correction;
               let splited = correction.split(/\s*(?=\d+\.\s)/);
               return (
-                <div key={index} className="text-left">
-                  <h1 className="text-2xl text-left">
-                    GPT는 아래와 같이 요약했어요
-                  </h1>
-                  <p className="text-left">{item.text}</p>
-                  <h2 className="text-2xl text-left">
-                    GPT는 아래와 같은 이유로 요약했어요.
-                  </h2>
+                <div key={index} className="mb-6 text-left">
+                  <h1 className="text-2xl mb-4 text-left">GPT는 아래와 같이 요약했어요</h1>
+                  <p className="mb-4 text-left">{item.text}</p>
+                  <h2 className="text-2xl mb-4 text-left">GPT는 아래와 같은 이유로 요약했어요.</h2>
                   <Correction correction={splited}></Correction>
                 </div>
               );
@@ -60,10 +55,10 @@ export default function Detail(props) {
           {articleData.then((response) =>
             response.props.data.map((item, index) => {
               return (
-                <div key={index} className="text-left">
-                  <h2 className="text-2xl text-left">원본 링크</h2>
-                  <p className="text-left">{item.link}</p>
-                  <h2 className="text-2xl text-left">원본 기사</h2>
+                <div key={index} className="mb-6 text-left">
+                  <h2 className="text-2xl mb-4 text-left">원본 링크</h2>
+                  <p className="mb-4 text-left text-blue-600">{item.link}</p>
+                  <h2 className="text-2xl mb-4 text-left">원본 기사</h2>
                   <p className="py-4 text-left">{item.text}</p>
                 </div>
               );
@@ -71,8 +66,7 @@ export default function Detail(props) {
           )}
         </div>
       </div>
-      {/*<div className="col-span-12 lg:col-span-1 p-4 fixed w-full lg:w-auto text-left">*/}
-      <div className="grid gap-4 py-20">
+      <div className="grid gap-4 py-20 col-span-12">
         <App />
         <Statistics />
       </div>
