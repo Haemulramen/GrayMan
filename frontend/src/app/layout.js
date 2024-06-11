@@ -12,15 +12,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="fixed w-full flex items-center justify-between p-4 border-b-2">
-          <div id="logo"><a href="/">Newstarlity</a></div>
+        <header className="fixed w-full flex items-center justify-between p-4 border-b-2 bg-black">
+          <div id="logo">
+            <a href="/" className="text-orange-500 font-bold text-2xl">Newstarlity</a>
+          </div>
           <nav>
             <ul className="flex flex-row">
               <li className="mr-4">
-                <a>정치</a>
+                <a className="text-white">정치</a>
               </li>
               <li>
-                <a>사회</a>
+                <a className="text-white">사회</a>
               </li>
             </ul>
           </nav>

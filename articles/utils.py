@@ -56,10 +56,11 @@ class CreateNews():
             model="gpt-4",
             messages=[
                 {"role": "system", "content": prompt},
-                {"role": "user", "content": f" 다음은 원본 뉴스야. {origin_news} 그리고 이 두 번째 글은 내가 준 원본 뉴스를 편향성을 제거하거나 수정하여 요약한 요약본이야.{summarize_news}. 이 둘의 차이를 분석하여 어느 부분이 편향성을 띠어서 수정되고 삭제가 되었는지 알려줘."},
+                {"role": "user", "content": f" 다음은 원본 뉴스야. {origin_news} 그리고 이 두 번째 글은 내가 준 원본 뉴스를 편향성을 제거하거나 수정하여 요약한 요약본이야.{summarize_news}. 이 둘의 차이를 분석하여 어느 부분이 편향성을 띠어서 수정되고 삭제가 되었는지 알려줘. 형식은 1. 원본 뉴스의 문장 2. 수정된 부분 3. 수정된 이유를 나열해줘."},
         ]
     )
         return response.choices[0].message.content
+    
     def reason(self):
         pass
     
@@ -69,7 +70,7 @@ class CreateNews():
     #             correction = "test",
     #             reason = "test",
     #         ) 
-            
+        
 
 
 
