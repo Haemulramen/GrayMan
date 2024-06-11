@@ -175,3 +175,5 @@ cython_debug/
 secrets.json
 articles/migrations
 Important.pem
+
+node_modules/
