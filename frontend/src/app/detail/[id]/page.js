@@ -9,30 +9,9 @@ export default function Detail(props) {
   const articleData = getServerSidePropsArticle(props.params.id);
 
   return (
-    <main className="grid grid-cols-12 gap-4 py-20">
-      <div>
-        <h5>최근 10개의 뉴스를 가져왔어요</h5>
-        {data.then((response) =>
-          response.props.data.map((item, index) => {
-            const news_link = "/detail/" + item.id;
-            if (index >= 10) return null;
-            return (
-              <a href={news_link} key={index}>
-                <section className="flex items-center justify-between m-2 border p-3 hover:bg-slate-100 hover:text-black rounded">
-                  <h1 className="text-lg">{item.title}</h1>
-                  <p>{item.company}</p>
-                </section>
-              </a>
-            );
-          })
-        )}
-        <section>
-          <button className="border px-4 py-2 hover:bg-slate-100 hover:text-black rounded">
-            Feedback
-          </button>
-        </section>
-      </div>
-      <div className="col-span-4 p-4 text-left ">
+    <main className="grid grid-cols-12 gap-4 py-20 bg-white">
+
+      <div className="col-span-4 p-4 text-left">
         <div>
           {data.then((response) =>
             response.props.data.map((item, index) => {
@@ -40,9 +19,9 @@ export default function Detail(props) {
               let splited = correction.split(/\s*(?=\d+\.\s)/);
               return (
                 <div key={index} className="mb-6 text-left">
-                  <h1 className="text-2xl mb-4 text-left">GPT는 아래와 같이 요약했어요</h1>
+                  <h1 className="text-2xl mb-4 text-left"> 객관화된 기사에요 </h1>
                   <p className="mb-4 text-left">{item.text}</p>
-                  <h2 className="text-2xl mb-4 text-left">GPT는 아래와 같은 이유로 요약했어요.</h2>
+                  <h2 className="text-2xl mb-4 text-left">GPT는 아래와 같은 이유로 수정했어요.</h2>
                   <Correction correction={splited}></Correction>
                 </div>
               );
