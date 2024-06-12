@@ -2,5 +2,6 @@
   "dependencies": {
     "react-highlight-words": "^0.20.0",
     "string-similarity": "^4.0.4"
+    
   }
 }

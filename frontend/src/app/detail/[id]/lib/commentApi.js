@@ -1,7 +1,7 @@
-import { get, post, patch, del } from "./api";
+import { get, post, patch, del } from "./fetch_api.js";
 
 export async function getComments(articleId) {
-  return get(`news/${articleId}/comments/`);
+  return get(`news/${articleId}/`);
 }
 
 export async function postComment(data) {

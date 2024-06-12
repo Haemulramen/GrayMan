@@ -1,8 +1,9 @@
 import React from "react";
-import { getServerSideProps, getServerSidePropsArticle } from "./lib/fetch_db";
+import { getServerSideProps } from "./lib/fetch_db";
 import Correction from "./layout/correction";
 import App from "./lib/chat";
 import Statistics from "./lib/statistics";
+import Comments from "./layout/comments";
 
 export default function Detail(props) {
   const { id } = props.params;
@@ -58,6 +59,7 @@ export default function Detail(props) {
       <div className="grid gap-4 py-20 col-span-12">
         <App />
         <Statistics />
+        <Comments />
       </div>
     </main>
   );
