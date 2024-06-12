@@ -34,7 +34,7 @@ function Comments() {
     const commentData = {
       article_id: articleId,
       content: newComment,
-      password,
+      password: password,
     };
 
     try {
@@ -47,6 +47,7 @@ function Comments() {
     }
   };
 
+  //TODO: 해당 함수 구현하기
   const handleDelete = async (commentId) => {
     try {
       await deleteComment(commentId, password);
@@ -55,7 +56,7 @@ function Comments() {
       setError(error.message);
     }
   };
-
+  //TODO: 해당 함수 구현하기
   const handleUpdate = async (commentId, newContent) => {
     const updateData = {
       article_id: articleId,

@@ -5,7 +5,6 @@ async function fetchData(endpoint, options = {}) {
   const response = await fetch(`${baseURL}${endpoint}`, {
     headers: {
       "Content-Type": "application/json",
-      ...options.headers,
     },
     ...options,
   });
@@ -24,7 +23,6 @@ async function get(endpoint, headers = {}) {
 async function post(endpoint, data, headers = {}) {
   return fetchData(endpoint, {
     method: "POST",
-    headers,
     body: JSON.stringify(data),
   });
 }
@@ -32,7 +30,6 @@ async function post(endpoint, data, headers = {}) {
 async function patch(endpoint, data, headers = {}) {
   return fetchData(endpoint, {
     method: "PATCH",
-    headers,
     body: JSON.stringify(data),
   });
 }
