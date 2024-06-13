@@ -8,10 +8,17 @@ import {
   updateComment,
 } from "../lib/commentApi";
 
-const articleId = 1; // 예시로 고정된 articleId를 사용합니다.
+// Mock data for demonstration
+const mockComments = [
+  { id: 1, content: "This is a great article!", author: 1 },
+  { id: 2, content: "I learned a lot from this post. Thank you!", author: 2 },
+  { id: 3, content: "Interesting perspective. I never thought about it that way.", author: 3 },
+];
+
+const articleId = 1; // Example fixed articleId
 
 function Comments() {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(mockComments);
   const [newComment, setNewComment] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -26,7 +33,8 @@ function Comments() {
       }
     }
 
-    fetchComments();
+    // Uncomment the line below to fetch comments from the API
+    // fetchComments();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -35,6 +43,7 @@ function Comments() {
       article_id: articleId,
       content: newComment,
       password: password,
+      author: comments.length + 1, // Assigning a new author id for simplicity
     };
 
     try {
@@ -47,7 +56,6 @@ function Comments() {
     }
   };
 
-  //TODO: 해당 함수 구현하기
   const handleDelete = async (commentId) => {
     try {
       await deleteComment(commentId, password);
@@ -56,7 +64,7 @@ function Comments() {
       setError(error.message);
     }
   };
-  //TODO: 해당 함수 구현하기
+
   const handleUpdate = async (commentId, newContent) => {
     const updateData = {
       article_id: articleId,
@@ -74,17 +82,18 @@ function Comments() {
     }
   };
 
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
-    <div>
-      <h1>Comments</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="max-w-4xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">댓글</h1>
+      <form onSubmit={handleSubmit} className="mb-4">
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Write a comment"
           required
+          className="w-full p-2 border border-gray-300 rounded mb-2"
         ></textarea>
         <input
           type="password"
@@ -92,24 +101,42 @@ function Comments() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           required
+          className="w-full p-2 border border-gray-300 rounded mb-2"
         />
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Submit
+        </button>
       </form>
-      <ul>
+      <ul className="space-y-4">
         {comments.map((comment) => (
-          <li key={comment.id}>
-            <p>{comment.content}</p>
-            <button onClick={() => handleDelete(comment.id)}>Delete</button>
-            <button
-              onClick={() =>
-                handleUpdate(
-                  comment.id,
-                  prompt("Enter new content:", comment.content)
-                )
-              }
-            >
-              Edit
-            </button>
+          <li
+            key={comment.id}
+            className="p-4 border border-gray-200 rounded shadow-sm"
+          >
+            <p className="font-bold">익명{comment.author}</p>
+            <p className="mb-2">{comment.content}</p>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => handleDelete(comment.id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() =>
+                  handleUpdate(
+                    comment.id,
+                    prompt("Enter new content:", comment.content)
+                  )
+                }
+                className="text-blue-500 hover:text-blue-700"
+              >
+                Edit
+              </button>
+            </div>
           </li>
         ))}
       </ul>
