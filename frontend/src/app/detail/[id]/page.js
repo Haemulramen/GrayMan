@@ -1,3 +1,4 @@
+
 import React from "react";
 import { getServerSideProps } from "./lib/fetch_db";
 import Correction from "./layout/correction";
@@ -16,7 +17,6 @@ export default function Detail(props) {
 
   return (
     <main className="grid grid-cols-12 gap-4 py-20 bg-white">
-
       <div className="col-span-8 p-4 text-left">
         <div>
           {summaryData.then((response) =>
@@ -57,7 +57,6 @@ export default function Detail(props) {
       </div>
       <div className="col-span-4 p-4 text-left">
         <Comments />
-
       </div>
     </main>
   );
