@@ -12,10 +12,6 @@ import {
   Legend,
 } from "chart.js";
 
-//TODO: 해당 함수 구현하기
-// import { processSentences } from "../utils/dataProcessor";
-
-// Chart.js에 필요한 요소 등록
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -25,34 +21,25 @@ ChartJS.register(
   Legend
 );
 
-const sentences = [
-  "This is a positive sentence.",
-  "This is a negative sentence.",
-  // 추가 문장들...
-];
-
-export default function Statistics() {
-  const [data, setData] = useState({ positiveCount: 0, negativeCount: 0 });
+export default function Statistics({ origin_count, positive_count }) {
+  const [data, setData] = useState({ positiveCount: 0, totalCount: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // const { positiveCount, negativeCount } = processSentences(sentences);
-    const { positiveCount, negativeCount } = {
-      positiveCount: 1,
-      negativeCount: 1,
-    };
-    setData({ positiveCount, negativeCount });
+    const totalCount = origin_count;
+    const positiveCount = positive_count;
+    setData({ positiveCount, totalCount });
     setLoading(false);
-  }, []);
+  }, [origin_count, positive_count]);
 
   if (loading) return <p>Loading...</p>;
 
   const chartData = {
-    labels: ["Positive", "Negative"],
+    labels: ["핵심문장", "전체문장"],
     datasets: [
       {
         label: "Sentence Count",
-        data: [data.positiveCount, data.negativeCount],
+        data: [data.positiveCount, data.totalCount],
         backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
         borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
         borderWidth: 1,
