@@ -4,6 +4,7 @@ import Correction from "./layout/correction";
 import App from "./lib/chat";
 import Statistics from "./lib/statistics";
 import Comments from "./layout/comments";
+import RightSide from "./layout/rightside";
 
 export default function Detail(props) {
   const { id } = props.params;
@@ -40,7 +41,7 @@ export default function Detail(props) {
           )}
         </div>
       </div>
-      <div className="col-span-4 p-4 text-left">
+      <RightSide>
         <div>
           {originData.then((response) =>
             response.props.data.map((item, index) => {
@@ -55,12 +56,12 @@ export default function Detail(props) {
             })
           )}
         </div>
-      </div>
-      <div className="grid gap-4 py-20 col-span-12">
+      </RightSide>
+      <RightSide>
         <App />
         <Statistics />
         <Comments />
-      </div>
+      </RightSide>
     </main>
   );
 }
