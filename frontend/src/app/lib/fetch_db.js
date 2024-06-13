@@ -1,3 +1,6 @@
+
+
+
 // lib/db.js (또는 다른 곳에서)
 const sqlite3 = require("sqlite3").verbose();
 
