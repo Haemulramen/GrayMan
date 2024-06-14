@@ -21,7 +21,6 @@ string = '''
 논의가 단편적인 특정 사람이나 그룹을 빼고 뉴스의 주요 내용을 다루는 방식으로 요약 글이 수정되어 중립적인 입장을 유지할 수 있었다. 이렇게 해서 다양한 의견의 여부를 확인하고 갈등을 야기하는 요소를 최소화하는 방안을 강구했다.'''
 cur.execute("UPDATE articles_summary SET correction = ? WHERE origin_id = ?", (string, 18))
 con.commit()
-# 9, 12, 
 # cur.execute("SELECT id, text from articles_article")
 # rows = cur.fetchall()
 
