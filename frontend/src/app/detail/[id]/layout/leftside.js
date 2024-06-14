@@ -1,7 +1,6 @@
-export default function LeftSide({ children }) {
-  return (
-    <div className=" justify-center text-center  w-1/2 border brac">
-      {children}
-    </div>
-  );
+export default function LeftSide({ children, className }) {
+  const combinedClassName = `justify-center text-center w-full border brac p-10 ${
+    className || ""
+  }`;
+  return <div className={combinedClassName}>{children}</div>;
 }

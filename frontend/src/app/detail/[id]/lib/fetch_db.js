@@ -1,9 +1,9 @@
 // lib/db.js (또는 다른 곳에서)
 const sqlite3 = require("sqlite3").verbose();
 
-export async function fetchData(id, column_name) {
+export async function fetchData(query) {
   const db = new sqlite3.Database("../db.sqlite3");
-  const query = `SELECT * FROM ${column_name} WHERE origin_id = ${id}`;
+  console.log(query);
   const dataPromise = await new Promise((resolve, reject) => {
     db.all(query, (err, rows) => {
       if (err) reject(err);
@@ -16,8 +16,8 @@ export async function fetchData(id, column_name) {
   return data;
 }
 
-export async function getServerSideProps(id, column_name) {
-  const data = await fetchData(id, column_name);
+export async function getServerSideProps(query) {
+  const data = await fetchData(query);
   return {
     props: {
       data,

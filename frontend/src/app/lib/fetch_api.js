@@ -1,5 +1,5 @@
 // utils/api.js
-const baseURL = "https://localhost:8000/";
+const baseURL = "http://localhost:8000/";
 
 async function fetchData(endpoint, options = {}) {
   const response = await fetch(`${baseURL}${endpoint}`, {
