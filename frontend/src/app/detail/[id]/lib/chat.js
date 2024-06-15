@@ -20,7 +20,7 @@ export default function App() {
 
     try {
       const response = await axios.post(
-        "http://13.209.91.21:8000/news/chatting/",
+        "http://13.209.91.211:8000/news/chatting/",
         { question }
       );
       const newMessage = {
