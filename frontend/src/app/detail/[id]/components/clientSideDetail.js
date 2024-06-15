@@ -24,10 +24,12 @@ export default function ClientSideDetail({ summaryData, originData }) {
               .filter((line) => line);
             return (
               <div key={index} className="mb-6 text-left">
-                <h1 className="text-2xl mb-4 text-left">객관화된 기사에요</h1>
-                <p className="mb-4 text-left">{item.text}</p>
-                <h2 className="text-2xl mb-4 text-left">
-                  GPT는 아래와 같은 이유로 수정했어요.
+                <h1 className="text-3xl mb-4 text-left font-semibold">
+                  객관화된 기사에요
+                </h1>
+                <p className="mb-4 text-left  pb-3 border-b-2">{item.text}</p>
+                <h2 className="text-2xl mb-4 text-left font-semibold">
+                  GPT는 아래와 같은 이유로 수정했어요
                 </h2>
                 <Correction lines={lines} onCountUpdate={setPositiveCount} />
               </div>
@@ -41,16 +43,16 @@ export default function ClientSideDetail({ summaryData, originData }) {
           return (
             <React.Fragment key={index}>
               <Statistics
-                className="p-6"
                 origin_count={origin_count}
                 positive_count={positiveCount}
               />
               <div className="mb-6 text-left">
-                <h2 className="text-2xl mb-4 text-left">원본 링크</h2>
+                <h2 className="text-2xl mb-4 text-left font-semibold">
+                  수정 전 내용이에요
+                </h2>
                 <p className="mb-4 text-left text-blue-600">
                   <a href={item.link}>원본 기사로 이동하기</a>
                 </p>
-                <h2 className="text-2xl mb-4 text-left">원본 기사</h2>
                 <p className="py-4 text-left">{item.text}</p>
                 {/* <HighlightStrings string1={item.text} string2={tempString} /> */}
               </div>
