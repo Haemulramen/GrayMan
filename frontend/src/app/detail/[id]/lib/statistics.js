@@ -48,8 +48,8 @@ export default function Statistics({ origin_count, positive_count }) {
   };
 
   return (
-    <div>
-      <h1>Statistics</h1>
+    <div className="p-6 border-b-2 mb-4">
+      <h1 className="font-semibold text-xl">객관화 정도</h1>
       <Bar
         data={chartData}
         options={{
