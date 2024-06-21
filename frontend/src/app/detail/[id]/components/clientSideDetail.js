@@ -6,14 +6,23 @@ import App from "../lib/chat";
 import Statistics from "../lib/statistics";
 import Comments from "../layout/comments";
 import LeftSide from "../layout/leftside";
-const currentUrl = window.location.href;
-const urlObj = new URL(currentUrl);
-const segments = urlObj.pathname.split("/");
-const lastSegment = segments.pop() || segments.pop();
-console.log(lastSegment); // "resource"
 
 export default function ClientSideDetail({ summaryData, originData }) {
   const [positiveCount, setPositiveCount] = useState(0);
+  const [currentUrl, setCurrentUrl] = useState("");
+  const [id, setId] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // 클라이언트 사이드에서만 실행
+      const url = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+      setCurrentUrl(url);
+
+      const segments = window.location.pathname.split("/");
+      const lastSegment = segments.pop() || segments.pop() || segments.pop(); // handle potential trailing slash
+      setId(parseInt(lastSegment));
+    }
+  }, []);
   let origin_count;
   let tempString;
 
@@ -69,7 +78,7 @@ export default function ClientSideDetail({ summaryData, originData }) {
         })}
       </LeftSide>
       <div className=" p-4 text-left col-span-3">
-        <Comments articleId={lastSegment} />
+        {id !== null && <Comments articleId={id} />}
       </div>
     </main>
   );
