@@ -34,8 +34,8 @@ async function patch(endpoint, data, headers = {}) {
   });
 }
 
-async function del(endpoint, headers = {}) {
-  return fetchData(endpoint, { method: "DELETE", headers });
+async function del(endpoint, data, headers = {}) {
+  return fetchData(endpoint, { method: "DELETE", body: JSON.stringify(data) });
 }
 
 export { get, post, patch, del };
