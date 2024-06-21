@@ -21,11 +21,6 @@ export default function Home() {
           );
         })
       )}
-      <section>
-        <button className="border px-4 py-2 hover:bg-slate-100 hover:text-black rounded">
-          Feedback
-        </button>
-      </section>
     </main>
   );
 }
