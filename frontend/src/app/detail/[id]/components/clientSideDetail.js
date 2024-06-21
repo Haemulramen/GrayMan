@@ -6,6 +6,11 @@ import App from "../lib/chat";
 import Statistics from "../lib/statistics";
 import Comments from "../layout/comments";
 import LeftSide from "../layout/leftside";
+const currentUrl = window.location.href;
+const urlObj = new URL(currentUrl);
+const segments = urlObj.pathname.split("/");
+const lastSegment = segments.pop() || segments.pop();
+console.log(lastSegment); // "resource"
 
 export default function ClientSideDetail({ summaryData, originData }) {
   const [positiveCount, setPositiveCount] = useState(0);
@@ -64,7 +69,7 @@ export default function ClientSideDetail({ summaryData, originData }) {
         })}
       </LeftSide>
       <div className=" p-4 text-left col-span-3">
-        <Comments />
+        <Comments articleId={lastSegment} />
       </div>
     </main>
   );

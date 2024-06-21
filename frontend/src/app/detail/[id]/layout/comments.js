@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getComments, postComment, deleteComment, updateComment } from "../lib/commentApi";
+import {
+  getComments,
+  postComment,
+  deleteComment,
+  updateComment,
+} from "../lib/commentApi";
 
 function Comments({ articleId }) {
   const [comments, setComments] = useState([]);
@@ -29,7 +34,7 @@ function Comments({ articleId }) {
     };
 
     try {
-      const response = await postComment(commentData);
+      const response = await postComment(articleId, commentData);
       setComments([...comments, response]);
       setNewComment("");
       setPassword("");
@@ -39,8 +44,11 @@ function Comments({ articleId }) {
   };
 
   const handleDelete = async (commentId, commentPassword) => {
+    const commentData = {
+      password: commentPassword,
+    };
     try {
-      await deleteComment(commentId, commentPassword);
+      await deleteComment(commentId, commentData);
       setComments(comments.filter((comment) => comment.id !== commentId));
     } catch (err) {
       setError(err.message);
@@ -95,7 +103,9 @@ function Comments({ articleId }) {
             <p style={styles.commentContent}>{comment.content}</p>
             <div style={styles.commentActions}>
               <button
-                onClick={() => handleDelete(comment.id, comment.password)}
+                onClick={() =>
+                  handleDelete(comment.id, prompt("Enter password:"))
+                }
                 style={styles.deleteButton}
               >
                 Delete
@@ -105,7 +115,7 @@ function Comments({ articleId }) {
                   handleUpdate(
                     comment.id,
                     prompt("Enter new content:", comment.content),
-                    comment.password
+                    prompt("Enter password:")
                   )
                 }
                 style={styles.editButton}
