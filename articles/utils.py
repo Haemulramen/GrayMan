@@ -60,3 +60,11 @@ class CreateNews():
         ]
     )
         return response.choices[0].message.content
+    
+    def input_moderation(self, content):
+        response = self.client.moderations.create(
+            input = content
+        )
+        flagged = response.results[0].flagged
+
+        return flagged

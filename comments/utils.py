@@ -13,6 +13,5 @@ class CreateComment():
             input = content
         )
         flagged = response.results[0].flagged
-        print(flagged)
 
         return flagged

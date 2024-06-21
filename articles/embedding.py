@@ -77,5 +77,3 @@ def get_result(user_question):
     article_embeddings = generate_article_embeddings(articles)
     answer = answer_question(user_question, article_embeddings)
     return answer
-# if __name__ == "__main__":
-#     main()

@@ -203,3 +203,30 @@ def article_comment_list(request, id):
         commentList = Comment.objects.filter(article_id=id)
         serializer = CommentSerializer(commentList, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+@require_http_methods(["POST"])
+def user_article_input(request):
+
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user_article = data.get('article')
+        if user_article:
+            cn = CreateNews()
+            toxicity = cn.input_moderation(user_article)
+            if toxicity == False:
+                JsonResponse({
+                    'status' : 400,
+                    'data' : '사용자가 입력한 기사가 적절하지 않습니다.'
+                })
+            summary = cn.summarize(user_article)
+            correction = cn.correction(user_article, summary)
+            return JsonResponse({
+                'status' : 200,
+                'summary' : summary,
+                'correction' : correction
+            })
+        else:
+            return JsonResponse({
+                'status' : 400,
+                'data' : '사용자가 입력한 기사가 없습니다.'
+            })
