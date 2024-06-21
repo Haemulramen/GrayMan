@@ -126,13 +126,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = [
-    # "http://localhost:3000",
-    # "http://127.0.0.1:3000",
-    # "http://13.209.91.211:3000",
-    # 필요에 따라 다른 도메인도 추가할 수 있습니다.
-    "*",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     # "http://localhost:3000",
+#     # "http://127.0.0.1:3000",
+#     # "http://13.209.91.211:3000",
+#     # 필요에 따라 다른 도메인도 추가할 수 있습니다.
+#     "*",
+# ]
 
 
 # Internationalization
