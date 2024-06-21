@@ -1,47 +1,67 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getComments, postComment, deleteComment, updateComment } from "../lib/commentApi";
 
-// 목업 데이터
-const mockComments = [
-  { id: 1, content: "This is the first comment.", password: "1234" },
-  { id: 2, content: "This is the second comment.", password: "1234" },
-  { id: 3, content: "This is the third comment.", password: "1234" },
-];
-
-function Comments() {
+function Comments({ articleId }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // 목업 데이터를 설정합니다.
-    setComments(mockComments);
-  }, []);
+    async function fetchComments() {
+      try {
+        const response = await getComments(articleId);
+        setComments(response);
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+    fetchComments();
+  }, [articleId]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const commentData = {
-      id: comments.length + 1,
       content: newComment,
       password: password,
     };
 
-    setComments([...comments, commentData]);
-    setNewComment("");
-    setPassword("");
+    try {
+      const response = await postComment(commentData);
+      setComments([...comments, response]);
+      setNewComment("");
+      setPassword("");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  const handleDelete = (commentId) => {
-    setComments(comments.filter((comment) => comment.id !== commentId));
+  const handleDelete = async (commentId, commentPassword) => {
+    try {
+      await deleteComment(commentId, commentPassword);
+      setComments(comments.filter((comment) => comment.id !== commentId));
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  const handleUpdate = (commentId, newContent) => {
-    const updatedComments = comments.map((comment) =>
-      comment.id === commentId ? { ...comment, content: newContent } : comment
-    );
-    setComments(updatedComments);
+  const handleUpdate = async (commentId, newContent, commentPassword) => {
+    const updatedData = {
+      content: newContent,
+      password: commentPassword,
+    };
+
+    try {
+      const response = await updateComment(commentId, updatedData);
+      const updatedComments = comments.map((comment) =>
+        comment.id === commentId ? response : comment
+      );
+      setComments(updatedComments);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   if (error) return <p>Error: {error}</p>;
@@ -75,7 +95,7 @@ function Comments() {
             <p style={styles.commentContent}>{comment.content}</p>
             <div style={styles.commentActions}>
               <button
-                onClick={() => handleDelete(comment.id)}
+                onClick={() => handleDelete(comment.id, comment.password)}
                 style={styles.deleteButton}
               >
                 Delete
@@ -84,7 +104,8 @@ function Comments() {
                 onClick={() =>
                   handleUpdate(
                     comment.id,
-                    prompt("Enter new content:", comment.content)
+                    prompt("Enter new content:", comment.content),
+                    comment.password
                   )
                 }
                 style={styles.editButton}
